@@ -32,15 +32,11 @@
 
 static XbmcThreads::ThreadLocal<CThread> currentThread;
 
-XbmcCommons::ILogger* CThread::logger = NULL;
-
 #include "threads/platform/ThreadImpl.cpp"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-
-#define LOG if(logger) logger->Log
 
 CThread::CThread(const char* ThreadName)
 : m_StopEvent(true,true), m_TermEvent(true), m_StartEvent(true)
