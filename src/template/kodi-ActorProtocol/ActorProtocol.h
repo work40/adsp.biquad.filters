@@ -60,29 +60,42 @@ public:
   Protocol(std::string name, CEvent* inEvent, CEvent *outEvent)
     : portName(name), inDefered(false), outDefered(false) {containerInEvent = inEvent; containerOutEvent = outEvent;};
   virtual ~Protocol();
+  // get a message from freeMessageQueue or create a new one
   Message *GetMessage();
+  // return a message and store it in freeMessageQueue
   void ReturnMessage(Message *msg);
+  // send an out message and store a pointer in outMessages
   bool SendOutMessage(int signal, void *data = NULL, int size = 0, Message *outMsg = NULL);
+  // send an in message and store a pointer in inMessages
   bool SendInMessage(int signal, void *data = NULL, int size = 0, Message *outMsg = NULL);
+  // send an synchronuous out message with a time out value
   bool SendOutMessageSync(int signal, Message **retMsg, int timeout, void *data = NULL, int size = 0);
   bool ReceiveOutMessage(Message **msg);
   bool ReceiveInMessage(Message **msg);
+  // empty in- and out-message queues
   void Purge();
+  // empty in-message queue except the message with the ID stored in signal
   void PurgeIn(int signal);
+  // empty out-message queue except the message with the ID stored in signal
   void PurgeOut(int signal);
+  // ???
   void DeferIn(bool value) {inDefered = value;};
+  // ???
   void DeferOut(bool value) {outDefered = value;};
+  // set thread safe lock
   void Lock() {criticalSection.lock();};
+  // unset thread safe lock
   void Unlock() {criticalSection.unlock();};
+  // protocol port name
   std::string portName;
 
 protected:
-  CEvent *containerInEvent, *containerOutEvent;
-  CCriticalSection criticalSection;
-  std::queue<Message*> outMessages;
-  std::queue<Message*> inMessages;
-  std::queue<Message*> freeMessageQueue;
-  bool inDefered, outDefered;
+  CEvent *containerInEvent, *containerOutEvent; // ???
+  CCriticalSection criticalSection;             // lock object for accessing message queues
+  std::queue<Message*> outMessages;             // thread safe out message queue
+  std::queue<Message*> inMessages;              // thread safe in message queue
+  std::queue<Message*> freeMessageQueue;        // thread safe free message queue that are used for new messages
+  bool inDefered, outDefered;                   // ???
 };
 
 }
