@@ -20,14 +20,11 @@
 
 #pragma once
 
-//---------------------------------------------------------
-// This include should be moved to commons but even as it is,
-// it wont cause a linker circular dependency since it's just
-// a header.
-#include "utils/StringUtils.h"
-//---------------------------------------------------------
-#include "ilog.h"
+#include <string>
 #include <stdarg.h>
+#include "include/client.h"
+#include "util/StringUtils.h"
+#include "system.h"
 
 #ifdef __GNUC__
 // The 'this' pointer counts as a parameter on member methods.
@@ -61,7 +58,6 @@ namespace XbmcCommons
     std::string message;
 
   protected:
-    static ILogger* logger;
 
     inline Exception(const char* classname_) : classname(classname_) { }
     inline Exception(const char* classname_, const char* message_) : classname(classname_), message(message_) { }
@@ -93,13 +89,10 @@ namespace XbmcCommons
 
     inline virtual void LogThrowMessage(const char* prefix = NULL) const
     {
-      if (logger)
-        logger->Log(LOGERROR,"EXCEPTION Thrown (%s) : %s", classname.c_str(), message.c_str());
+        LOG(LOGERROR, "EXCEPTION Thrown (%s) : %s", classname.c_str(), message.c_str());
     }
 
     inline virtual const char* GetMessage() const { return message.c_str(); }
-
-    inline static void SetLogger(ILogger* exceptionLogger) { logger = exceptionLogger; }
   };
 
   /**
@@ -127,6 +120,4 @@ namespace XbmcCommons
 #define  XBMCCOMMONS_HANDLE_UNCHECKED \
   catch (const XbmcCommons::UncheckedException& ) { throw; } \
   catch (const XbmcCommons::UncheckedException* ) { throw; }
-
 }
-
