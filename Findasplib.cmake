@@ -12,11 +12,11 @@ endif()
 
 if(NOT ASPLIB_FOUND)
   find_path(ASPLIB_INCLUDE_DIRS "apslib_BiquadFactory.h"
-            ASPLIB_INCLUDE_DIRS "Biquads/Biquad_Native/asplib_Biquad_Native.h"
-            ASPLIB_INCLUDE_DIRS "constants_typedefs/asplib_constants.h"
-            ASPLIB_INCLUDE_DIRS "constants_typedefs/asplib_typedefs.h"
-            ASPLIB_INCLUDE_DIRS "interfaces/asplib_IBaseBiquad.h"
-            PATH_SUFFIXES "asplib" )
+                                "Biquads/Biquad_Native/asplib_Biquad_Native.h"
+                                "constants_typedefs/asplib_constants.h"
+                                "constants_typedefs/asplib_typedefs.h"
+                                "interfaces/asplib_IBaseBiquad.h"
+                                PATH_SUFFIXES "asplib" )
 
   find_library(ASPLIB_LIBRARIES
                NAMES "asplib"
