@@ -20,7 +20,7 @@
  */
 
 #include <template/Settings/SettingsManager.h>
-#include "p8-platform/threads/mutex.h"
+#include "platform/threads/mutex.h"
 
 class CBiquadFiltersSettings
 {
@@ -59,6 +59,6 @@ public:
   static void save_Parametric10BandEQSettings();
   
   protected:
-    static P8PLATFORM::CMutex m_Mutex;
+    static PLATFORM::CMutex m_Mutex;
     static CSettingsManager *m_10BandEQSettings;
 };
